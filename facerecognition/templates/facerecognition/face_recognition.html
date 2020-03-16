@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width,initial-scale=1" name="viewport">
+    <meta content="description" name="description">
+    <meta name="google" content="notranslate"/>
+    <meta content="Mashup templates have been developped by Orson.io team" name="author">
+
+    <!-- Disable tap highlight on IE -->
+    <meta name="msapplication-tap-highlight" content="no">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/assets/apple-icon-180x180.png">
+    <link href="/static/assets/favicon.ico" rel="icon">
+
+    <title>Title page</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/webuploader.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/demo.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css">
+    <link href="/static/css/main.3f6952e4.css" rel="stylesheet">
+</head>
+
+<body class="">
+<div id="site-border-left"></div>
+<div id="site-border-right"></div>
+<div id="site-border-top"></div>
+<div id="site-border-bottom"></div>
+<!-- Add your content of header -->
+<header>
+    <nav class="navbar  navbar-fixed-top navbar-default">
+        <div class="container">
+            <div class="collapse navbar-collapse" id="navbar-collapse">
+                <ul class="nav navbar-nav ">
+                    <li><a href="{% url 'facerecognition:index' %}">01 : 首页</a></li>
+                    <li><a href="{% url 'facerecognition:face_recognition'%}">02 : 人脸模糊</a></li>
+                    <li><a href="{% url 'facerecognition:about' %}">03 : 关于本站</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    {% if request.session.is_login %}
+                    <li><a>你好,{{ request.session.user_name }}</a></li>
+                    <li><a href="{% url 'users:logout' %}">登出</a></li>
+                    {% else %}
+                    <li><a href="{% url 'users:login' %}">登录</a></li>
+                    <li><a href="{%  url 'users:register' %}">注册</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<div class="section-container">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-sm-8 col-sm-offset-2 section-container-spacer">
+                <div class="text-center">
+                    <h1 class="h2">02 : 人脸模糊</h1>
+                    <p>
+                    <h3>这是一个人脸模糊程序，你可以通过拖拽或者点击添加图片按钮,<br/>
+                    上传照片或者视频，我们会将其中的人脸模糊后返回给你</h3></p>
+                </div>
+            </div>
+
+            <div id="post-container" class="container-upload">
+                <!--<h1 id="demo">upload</h1>-->
+<!--                <p>您可以尝试文件拖拽，或者点击添加图片按钮.</p>-->
+                <div id="uploader" class="wu-example">
+                    <div class="queueList">
+                        <div id="dndArea" class="placeholder">
+                            <div id="filePicker"></div>
+                            <p>或将照片拖到这里，单次最多可选300张</p>
+                        </div>
+                    </div>
+                    <div class="statusBar" style="display:none;">
+                        <div class="progress">
+                            <span class="text">0%</span>
+                            <span class="percentage"></span>
+                        </div>
+                        <div class="info"></div>
+                        <div class="btns">
+                            <div id="filePicker2"></div>
+                            <div class="uploadBtn">开始上传</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script type="text/javascript">
+            // 添加全局站点信息
+            var BASE_URL = '/webuploader';
+            </script>
+            <script type="text/javascript" src="/static/js/jquery.js"></script>
+            <script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
+            <script type="text/javascript" src="/static/js/global.js"></script>
+            <script type="text/javascript" src="/static/js/webuploader.js"></script>
+            <script type="text/javascript" src="/static/js/demo.js"></script>
+        </div>
+    </div>
+</div>
+<footer class="footer-container text-center">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <p>© UNTITLED | Website created by Micah Yin from GUET - More information <a href="http://www.guet.edu.cn/" target="_blank" title="模板之家">GUET</a> </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function (event) {
+     navActivePage();
+  });
+</script>
+
+<script type="text/javascript" src="/static/js/main.70a66962.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <link rel="stylesheet" href="/static/css/login.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/assets/apple-icon-180x180.png">
+    <link href="/static/assets/favicon.ico" rel="icon">
+    <title>login page</title>
+    <link href="/static/css/main.3f6952e4.css" rel="stylesheet">
+    <style>
+  video, canvas {
+    margin-left: 10px;
+    margin-top: 20px;
+    position: absolute;
+  }
+    </style>
+    <head/>
+<body class="minimal">
+<div id="site-border-left"></div>
+<div id="site-border-right"></div>
+<div id="site-border-top"></div>
+<div id="site-border-bottom"></div>
+<!-- Add your content of header-->
+<header>
+    <nav class="navbar  navbar-fixed-top navbar-default">
+        <div class="container">
+            <div class="collapse navbar-collapse" id="navbar-collapse">
+                <ul class="nav navbar-nav ">
+                    <li><a href="{% url 'facerecognition:index' %}">01 : 首页</a></li>
+                    <li><a href="{% url 'facerecognition:face_recognition'%}">02 : 人脸模糊</a></li>
+                    <li><a href="{% url 'facerecognition:about' %}">03 : 关于本站</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    {% if request.session.is_login %}
+                    <li><a>你好,{{ request.session.user_name }}</a></li>
+                    <li><a href="{% url 'users:logout' %}">登出</a></li>
+                    {% else %}
+                    <li><a href="{% url 'users:login' %}">登录</a></li>
+                    <li><a href="{%  url 'users:register' %}">注册</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+<!-- Add your site or app content here -->
+
+<!-- /container -->
+<div class="section-container">
+    <div class="container">
+        <div class="row-input-top">
+            <div class="col-xs-12">
+                <div class="section-container-spacer text-center">
+                    <h1 class="h2">欢迎登录</h1>
+                </div>
+                <div class="demo-container">
+                    <video id="video" width="320" height="240" autoplay></video>
+                    <canvas id="canvas" width="320" height="240"></canvas>
+                </div>
+                <div class="row-input text-center">
+                    <div class="col-md-10 col-md-offset-1">
+                        <form action="{% url 'users:login' %}" class="reveal-content"  method="post">
+                             {% if message %}
+                            <div class="alert alert-warning">{{ message }}</div>
+                            {% endif %}
+                            <div class="row-input-top">
+                                <div class="col-md-7">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        {{ login_form.username }}
+<!--                                        <input type="text" class="form-control" id="username" placeholder="{{ login_form.username.label_tag }}">-->
+                                    </div>
+                                    <div class="form-group">
+                                        {{ login_form.password }}
+<!--                                        <input type="password" class="form-control" id="password" placeholder="{{ login_form.password.label_tag }} ">-->
+                                    </div>
+                                    <button type="reset" class="btn btn-default pull-left">重置</button>
+                                    <button type="submit" class="btn btn-default pull-right">登录</button>
+                                    <p>没有账户？点此<a href="{% url 'users:register' %}">注册</a></p>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var video = document.getElementById('video');
+      var canvas = document.getElementById('canvas');
+      var context = canvas.getContext('2d');
+      function getUserMediaToPhoto(constraints,success,error) {
+        if(navigator.mediaDevices.getUserMedia){
+            //最新标准API
+            navigator.mediaDevices.getUserMedia(constraints).then(success).catch(error);
+        }else if (navigator.webkitGetUserMedia) {
+            //webkit核心浏览器
+            navigator.webkitGetUserMedia(constraints,success,error);
+        }else if(navigator.mozGetUserMedia){
+            //firefox浏览器
+            navigator.mozGetUserMedia(constraints,success,error);
+        }else if(navigator.getUserMedia){
+            //旧版API
+            navigator.getUserMedia(constraints,success,error);
+        }
+    }
+    //成功回调函数
+    function success(stream){
+        if ("srcObject" in video) {
+            video.srcObject = stream;
+        } else {
+
+            video.src = window.URL.createObjectURL(stream);
+        }
+        video.onloadedmetadata = function(e) {
+            video.play();
+        };
+        postFace()
+    }
+    function error(error) {
+        console.log('访问用户媒体失败：',error.name,error.message);
+    }
+    function postFace() {
+        setTimeout(function () {
+            context.drawImage(video,0,0,320,240);
+            img=canvas.toDataURL('image/jpg')
+            {#获取完整的base64编码#}
+            img=img.split(',')[1]
+            //将照片以base64用ajax传到后台
+            $.ajax({
+		        type:"POST",
+                url:'get_face/',
+                //必须添加 csrf_token
+                beforeSend:function (xhr,setting) {
+                    xhr.setRequestHeader("X-CSRFToken","{{ csrf_token }}");
+                },
+                data:{
+                    message:img
+                },
+                success:function (callback) {
+                    if(callback=='no'){
+                        postFace()
+                    }else {
+                        window.location.href=callback
+                    }
+                },
+                error:function (callback) {
+                    postFace()
+                }
+            })
+        },300)
+    }
+    if(navigator.mediaDevices.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.getUserMedia)
+    {
+        getUserMediaToPhoto({video:{width:320,height:240}},success,error);
+    }else{
+        alert('你的浏览器不支持访问用户媒体设备');
+    }
+</script>
+<script type="text/javascript" src="/static/js/main.70a66962.js"></script>
+<script type="text/javascript" src="/static/js/jquery.js"></script>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width,initial-scale=1" name="viewport">
+  <meta content="description" name="description">
+  <meta name="google" content="notranslate"/>
+  <meta content="Mashup templates have been developped by Orson.io team" name="author">
+
+  <!-- Disable tap highlight on IE -->
+  <meta name="msapplication-tap-highlight" content="no">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/static/assets/apple-icon-180x180.png">
+  <link href="/static/assets/favicon.ico" rel="icon">
+
+  <title>Title page</title>
+  <link rel="stylesheet" type="text/css" href="/static/css/webuploader.css">
+  <link rel="stylesheet" type="text/css" href="/static/css/demo.css">
+  <link rel="stylesheet" type="text/css" href="/static/css/style.css">
+  <link href="/static/css/main.3f6952e4.css" rel="stylesheet">
+
+    <style>
+        .div-left{
+        float:left
+        }
+    </style>
+</head>
+
+<body class="">
+<div id="site-border-left"></div>
+<div id="site-border-right"></div>
+<div id="site-border-top"></div>
+<div id="site-border-bottom"></div>
+ <!-- Add your content of header -->
+<header>
+<nav class="navbar  navbar-fixed-top navbar-default">
+        <div class="container">
+            <div class="collapse navbar-collapse" id="navbar-collapse">
+                <ul class="nav navbar-nav ">
+                    <li><a href="{% url 'facerecognition:index' %}">01 : 首页</a></li>
+                    <li><a href="{% url 'facerecognition:face_recognition'%}">02 : 人脸模糊</a></li>
+                    <li><a href="{% url 'facerecognition:about' %}">03 : 关于本站</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    {% if request.session.is_login %}
+                    <li><a>你好,{{ request.session.user_name }}</a></li>
+                    <li><a href="{% url 'users:logout' %}">登出</a></li>
+                    {% else %}
+                    <li><a href="{% url 'users:login' %}">登录</a></li>
+                    <li><a href="{%  url 'users:register' %}">注册</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<div class="section-container">
+    <div class="container">
+      <div class="row">
+
+          <div class="col-sm-8 col-sm-offset-2 section-container-spacer">
+            <div class="text-center">
+                <h1 class="h2">03 : 关于本站</h1>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+              <div class="row">
+                <div class="div-left" >
+                  <h2>网站功能</h2>
+                  <p><h3>本网站将人脸识别技术与web网页应用相结合,可以通过人脸识别的方式登录</h3>
+                 <h3>将包含人脸的图片或视频上传至本站,我们会将其中的人脸进行模糊处理后返回给您</h3></p>
+                  <h2>关于开源</h2>
+                    <p><h3>本网站后台基于Django开发,使用了众多优秀的开源框架,源代码已发布在<br>
+                    Github:https://github.com/
+                </h3></p>
+                  <h2>与我联系</h2>
+                  <p><h3>欢迎以一下任何方式与我联系:<br>
+                <li>邮箱:yinwq887@gmail.com</li>
+                <li>微信:yinwwq887</li>
+                <li>qq:1456719640</li></h3></p>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+<footer class="footer-container text-center">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12">
+        <p>© UNTITLED | Website created by Micah Yin from GUET - More information <a href="http://www.guet.edu.cn/" target="_blank" title="模板之家">GUET</a> </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function (event) {
+     navActivePage();
+  });
+</script>
+
+ <script type="text/javascript" src="/static/js/main.70a66962.js"></script></body>
+
+</html>
